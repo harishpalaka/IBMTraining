@@ -1,0 +1,15 @@
+yum install docker -y && systemctl enable docker && systemctl start docker
+
+
+cat <<EOF > /etc/yum.repos.d/kubernetes.repo
+[kubernetes]
+name=Kubernetes
+baseurl=https://packages.cloud.google.com/yum/repos/kubernetes-el7-x86_64
+enabled=1
+gpgcheck=1
+repo_gpgcheck=1
+gpgkey=https://packages.cloud.google.com/yum/doc/yum-key.gpg https://packages.cloud.google.com/yum/doc/rpm-package-key.gpg
+EOF
+
+
+setenforce 0 && yum install -y kubelet kubeadm kubectl && sudo systemctl enable kubelet && systemctl start kubelet &&  kubeadm join 172.31.27.23:6443 --token anakhc.68hir61d8nymiv2g --discovery-token-ca-cert-hash sha256:3baf72b9e73e5bd5368e4383ba525d831ef4a9148faf53534194c33b3661ffa1
